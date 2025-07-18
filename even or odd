@@ -1,0 +1,48 @@
+extern printf
+extern scanf
+
+section .data
+		first_msg db "Enter the number : " ,10 ,0
+		frmt db "%d" ,0
+		finish1_msg db "the number is odd :" , 0
+		finish2_msg db "the number is even :" , 0
+
+section .bss 
+num resd 1
+
+section .text
+		global main
+main:
+		push rbp
+		mov rbp, rsp
+
+		mov rdi, first_msg
+		xor rax, rax
+		call printf
+
+		mov rdi, frmt
+		lea rsi, [num]
+		xor rax, rax
+		call scanf
+		
+		mov rax, [num]
+		xor rdx,rdx
+		mov rcx, 2
+		div rcx
+
+		cmp rdx, 0
+		je loop
+
+		mov rdi, finish1_msg
+		call printf
+		jmp end
+
+loop:
+		mov rdi, finish2_msg
+		call printf
+
+
+end:
+		mov rsp, rbp
+		pop rbp
+		ret
